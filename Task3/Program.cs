@@ -1,34 +1,43 @@
-﻿namespace Task1
+﻿namespace Task3
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.Write("Enter the purchase amount: ");
+            Random random = new Random();
+            int computerNumber = random.Next(1, 20);
 
-            bool isValidValue = double.TryParse(Console.ReadLine(), out double amount);
-            if (!isValidValue)
+            bool continueGuessing = true;
+            do
             {
-                Console.WriteLine("Wrong input");
-                return;
-            }
+                Console.Write("Try to guess: ");
+                bool isInputCorrect = int.TryParse(Console.ReadLine(), out int userNumber);
+                if (!isInputCorrect)
+                {
+                    Console.WriteLine("Wrong input");
+                    continue;
+                }
+                if (userNumber < 1 || userNumber > 20)
+                {
+                    Console.WriteLine("Not in range 1-20");
+                    continue;
+                }
 
-            if (amount > 5000)
-            {
-                amount = amount - ((amount * 10) / 100);
-                Console.WriteLine($"Your discount is 10%! Payable amount: {amount}");
+                if (userNumber == computerNumber)
+                {
+                    continueGuessing = false;
+                }
+                else if (userNumber < computerNumber)
+                {
+                    Console.WriteLine("More");
+                }
+                else
+                {
+                    Console.WriteLine("Less");
+                }
             }
-            else if (amount <= 5000 && amount > 1000)
-            {
-                amount = amount - ((amount * 5) / 100);
-                Console.WriteLine($"Your discount is 5%! Payable amount: {amount}");
-            }
-            else
-            {
-                Console.WriteLine("Unfortunately, you don't have a discount");
-            }
-
-
+            while (continueGuessing);
+            Console.WriteLine("You guessed it!");
         }
     }
 }
